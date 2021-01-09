@@ -29,3 +29,26 @@
 3. Shareable Room Link
 
 4. Adjustable Brush Size
+
+---
+
+## Contributing
+
+1. Clone the repository
+
+```shell
+git clone git@github.com:debdutgoswami/lenzo.git
+cd lenzo/
+```
+
+2. Create a separate branch for each feature
+
+```shell
+git checkout -b <branch-name>
+```
+
+3. Make your changes
+
+4. Create a Pull Request. Follow the [PR guidelines](/CONTRIBUTING.md#pull-request-process)
+
+---
