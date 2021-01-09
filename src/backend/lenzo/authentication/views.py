@@ -31,8 +31,6 @@ class CreateCustomUser(APIView):
 
 
 class LogoutAndBlacklist(APIView):
-    permission_classes = (permissions.AllowAny,)
-
     def post(self, request):
         try:
             token = RefreshToken(request.data["refresh"])
@@ -42,10 +40,17 @@ class LogoutAndBlacklist(APIView):
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
-class HelloWorldProtected(APIView):
+class StatusAccessToken(APIView):
+    """
+    Simply Returns a JSON showing status of the Access Token
+    """
+
     def get(self, request):
-        print(type(request.user))
         # by default the routes are protected
         return Response(
-            data={"message": "hello from protected"}, status=status.HTTP_200_OK
+            data={
+                "status": "OK",
+                "message": "Access Token is valid",
+            },
+            status=status.HTTP_200_OK,
         )
