@@ -27,7 +27,7 @@ class Room(models.Model):
     )
     is_live = models.BooleanField("Live", default=False, blank=False, null=False)
     duration = models.IntegerField(
-        "Duration (in sec)", default=0, blank=False, null=False
+        "Duration (in sec)", default=0, blank=False, null=True
     )
     start_time = models.DateTimeField("Start Time", blank=True, null=True)
     end_time = models.DateTimeField("End Time", blank=True, null=True)

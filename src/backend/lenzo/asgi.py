@@ -10,24 +10,28 @@ https://docs.djangoproject.com/en/3.1/howto/deployment/asgi/
 import os
 
 from django.core.asgi import get_asgi_application
-from channels.routing import ProtocolTypeRouter, URLRouter
-from channels.auth import AuthMiddlewareStack
 from django.urls import path
 
-from lenzo.authentication.middleware import TokenAuthMiddlewareStack  # noqa
-from lenzo.canvas.consumers import CanvasConsumer, ChatConsumer  # noqa
-
+# Fetch Django ASGI application early to ensure AppRegistry is populated
+# before importing consumers and AuthMiddlewareStack that may import ORM
+# models.
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "lenzo.settings")
+django_asgi_app = get_asgi_application()
+
+from channels.routing import ProtocolTypeRouter, URLRouter
+
+from .authentication.middleware import TokenAuthMiddlewareStack
+from .canvas.consumers import CanvasConsumer, ChatConsumer
 
 application = ProtocolTypeRouter(
     {
-        "http": get_asgi_application(),
+        "http": django_asgi_app,
         # Just HTTP for now. (We can add other protocols later.)
         "websocket": TokenAuthMiddlewareStack(
             URLRouter(
                 [
-                    path("canvas/<str:room_id>/", CanvasConsumer.as_asgi()),
-                    path("chat/<str:room_id>/", ChatConsumer.as_asgi()),
+                    path("ws/canvas/<str:room_id>/", CanvasConsumer.as_asgi()),
+                    path("ws/chat/<str:room_id>/", ChatConsumer.as_asgi()),
                 ]
             )
         ),

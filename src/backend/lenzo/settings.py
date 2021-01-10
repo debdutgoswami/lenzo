@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 import os
+import sys
 from datetime import timedelta
 
 from dotenv import load_dotenv, find_dotenv
@@ -33,6 +34,7 @@ SECRET_KEY = os.environ[APP_SECRET_ENV_KEY]
 # Environment Stage Mapping
 stageEnv = "STAGE"
 devStage = "dev"
+dockerStage = "docker"
 prodStage = "prod"
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -40,7 +42,11 @@ DEBUG = False
 
 ALLOWED_HOSTS = []
 
-if stageEnv not in os.environ or os.environ[stageEnv] == devStage:
+if (
+    stageEnv not in os.environ
+    or os.environ[stageEnv] == devStage
+    or os.environ[stageEnv] == dockerStage
+):
     # For Developer Local Environments
     ALLOWED_HOSTS = ["127.0.0.1", "localhost", "0.0.0.0"]
     DEBUG = True
@@ -128,16 +134,105 @@ TEMPLATES = [
 WSGI_APPLICATION = "lenzo.wsgi.application"
 ASGI_APPLICATION = "lenzo.asgi.application"
 
+if (
+    stageEnv not in os.environ
+    or os.environ[stageEnv] == devStage
+    or os.environ[stageEnv] == dockerStage
+):
+    # setting logging for dev environment
+    LOGGING = {
+        "version": 1,
+        "disable_existing_loggers": False,
+        "formatters": {
+            "verbose": {
+                "format": "[%(asctime)s] %(levelname)s [%(module)s:%(funcName)s:%(lineno)s] %(message)s",
+                "datefmt": "%d/%b/%Y %H:%M:%S",
+            },
+            "simple": {"format": "%(levelname)s %(message)s"},
+        },
+        "handlers": {
+            "console": {
+                "level": "DEBUG",
+                "class": "logging.StreamHandler",
+                "stream": sys.stdout,
+                "formatter": "verbose",
+            }
+        },
+        "loggers": {
+            "django.utils.autoreload": {
+                "level": "INFO",
+                "handler": ["console"],
+                "propagate": False,
+            },
+            "django.db.backends": {
+                "handlers": ["console"],  # Quiet by default!
+                "propagate": False,
+                "level": "DEBUG",
+            },
+            "django.template": {
+                "level": "INFO",
+                "handler": ["console"],
+                "propagate": False,
+            },
+            "django": {
+                "handlers": ["console"],
+                "level": "DEBUG",
+                "propagate": False,
+            },
+            "null": {
+                "class": "logging.NullHandler",
+            },
+            "": {
+                "handlers": ["console"],
+                "level": "DEBUG",
+                "propagate": False,
+            },
+        },
+    }
+
+
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
-
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+if stageEnv not in os.environ or os.environ[stageEnv] == devStage:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
     }
-}
 
+elif os.environ[stageEnv] == dockerStage:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.mysql",
+            "NAME": os.environ["MYSQL_DATABASE"],
+            "USER": os.environ["MYSQL_USER"],
+            "PASSWORD": os.environ["MYSQL_PASSWORD"],
+            "HOST": os.environ["MYSQL_HOST"],
+            "PORT": os.environ["MYSQL_PORT"],
+        }
+    }
+
+# REDIS DATASTORE
+if stageEnv not in os.environ or os.environ[stageEnv] == devStage:
+    CHANNEL_LAYERS = {
+        "default": {
+            "BACKEND": "channels_redis.core.RedisChannelLayer",
+            "CONFIG": {
+                "hosts": [("127.0.0.1", 6379)],
+            },
+        },
+    }
+
+elif os.environ[stageEnv] == dockerStage or os.environ[stageEnv] == prodStage:
+    CHANNEL_LAYERS = {
+        "default": {
+            "BACKEND": "channels_redis.core.RedisChannelLayer",
+            "CONFIG": {
+                "hosts": [("redis", 6380)],
+            },
+        },
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -157,15 +252,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# REDIS DATASTORE
-CHANNEL_LAYERS = {
-    "default": {
-        "BACKEND": "channels_redis.core.RedisChannelLayer",
-        "CONFIG": {
-            "hosts": [("127.0.0.1", 6379)],
-        },
-    },
-}
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
@@ -183,5 +269,5 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
-
 STATIC_URL = "/static/"
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
