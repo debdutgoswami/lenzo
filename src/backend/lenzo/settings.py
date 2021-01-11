@@ -229,7 +229,7 @@ elif os.environ[stageEnv] == dockerStage or os.environ[stageEnv] == prodStage:
         "default": {
             "BACKEND": "channels_redis.core.RedisChannelLayer",
             "CONFIG": {
-                "hosts": [("redis", 6380)],
+                "hosts": [("redis", 6379)],
             },
         },
     }
