@@ -11,9 +11,11 @@ Please note we have a code of conduct, please follow it in all your interactions
 
 2. Add screenshots if necessary.
 
-3. All PRs should be to the `develop` branch. PRs to `main` will be rejected.
+3. All PRs should be directed to the `develop` branch. PRs to `main` will be rejected.
 
-4. Follow other best practices while contributing.
+4. Do ensure that you make **ONLY** atomic commits.
+
+5. Follow other best practices while contributing.
 
 ## Code of Conduct
 

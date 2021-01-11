@@ -26,8 +26,6 @@ services:
   redis:
     container_name: "redis"
     image: "redis:alpine"
-    ports:
-      - "6380:6379"
 
   nginx:
     build: ../../src/nginx
