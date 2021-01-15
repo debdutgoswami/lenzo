@@ -4,7 +4,7 @@ from rest_framework import serializers
 from ..models import Room
 
 
-class RoomSerializer(serializers.ModelSerializer):
+class RoomSerializerProfile(serializers.ModelSerializer):
     """
     Room Serializer
     """
@@ -24,8 +24,8 @@ class ProfileSerializer(serializers.ModelSerializer):
     Serializer for Profile Section
     """
 
-    hosted = RoomSerializer(read_only=True, many=True)
-    participated = RoomSerializer(read_only=True, many=True)
+    hosted = RoomSerializerProfile(read_only=True, many=True)
+    participated = RoomSerializerProfile(read_only=True, many=True)
     date_joined = serializers.DateTimeField(read_only=True)
 
     class Meta:

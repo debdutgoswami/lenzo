@@ -1,3 +1,4 @@
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status, permissions
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -39,6 +40,7 @@ class CreateRoom(APIView):
     Create Room API View
     """
 
+    @swagger_auto_schema(request_body=RoomSerializer)
     def post(self, request, **kwargs):
         """
         POST request handler
@@ -60,6 +62,7 @@ class UpdateRoom(APIView):
     Update Room API View
     """
 
+    @swagger_auto_schema(request_body=RoomSerializer)
     def put(self, request, **kwargs):
         """
         UPDATE request handler

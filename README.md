@@ -71,3 +71,9 @@
     **NOTE**: If you are on Windows system, then you need to manually execute the `run-server.sh` commands without `sudo`
 
 ---
+
+## API Documentation
+
+Once you have your backend up and running successfully, simply go to `/docs` to look into the API documentations. Furthermore, you can go to `/playground` to test out those APIs.
+
+---

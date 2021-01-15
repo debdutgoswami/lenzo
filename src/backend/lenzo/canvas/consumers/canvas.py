@@ -89,19 +89,12 @@ class CanvasConsumer(AsyncConsumer):
         if user == AnonymousUser():
             await self.unauthenticated()
         else:
-            print(event)
-            print(self.scope["room"].is_live)
             new_event = {
                 "type": "canvas_draw_event",
                 "text": await self.encode_json(
                     {
                         "status": "OK",
-                        "message": {
-                            # "x": 20.4,
-                            # "y": 30.4,
-                            # "radius": 20,
-                            "event": event["text"],
-                        },
+                        "message": await self.decode_json(event["text"]),
                         "code": 200,
                     }
                 ),
@@ -116,10 +109,9 @@ class CanvasConsumer(AsyncConsumer):
         """
         Handler for Canvas Drawings
         """
-        print("message", event)
         # sends the actual message
-        await self.send_json(
-            content=event["text"],
+        await self.send(
+            text_data=event["text"],
         )
 
     async def websocket_disconnect(self, event):
