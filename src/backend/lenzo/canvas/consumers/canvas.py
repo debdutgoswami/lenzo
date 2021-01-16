@@ -67,6 +67,8 @@ class CanvasConsumer(AsyncConsumer):
                             },
                         )
                     else:
+                        # adds user to participants list
+                        await self.add_participant_to_room(room, user)
                         await self.send_json(
                             content={
                                 "host": False,
@@ -166,6 +168,13 @@ class CanvasConsumer(AsyncConsumer):
                 "duration",
             ]
         )
+
+    @database_sync_to_async
+    def add_participant_to_room(self, room: Room, user) -> None:
+        """
+        Adds the user to participant list
+        """
+        room.participants.add(user)
 
     async def send_json(self, content, code=200, status="OK", close=False):
         """
