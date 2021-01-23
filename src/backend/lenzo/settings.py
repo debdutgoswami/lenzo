@@ -48,7 +48,15 @@ if (
     or os.environ[stageEnv] == dockerStage
 ):
     # For Developer Local Environments
-    ALLOWED_HOSTS = ["127.0.0.1", "localhost", "0.0.0.0"]
+    ALLOWED_HOSTS = [
+        "127.0.0.1",
+        "localhost",
+        "0.0.0.0",
+        "http://localhost:5000",
+    ]
+
+    CORS_ORIGIN_ALLOW_ALL = False
+    CORS_ORIGIN_WHITELIST = ("http://localhost:5000",)
     DEBUG = True
 
 elif os.environ[stageEnv] == prodStage:
@@ -70,6 +78,7 @@ DJANGO_CORE_APPS = [
 ]
 
 THIRD_PARTY_APPS = [
+    "corsheaders",
     "rest_framework",
     "drf_yasg",
     "channels",
@@ -119,6 +128,8 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    # third-party
+    "corsheaders.middleware.CorsMiddleware",
 ]
 
 ROOT_URLCONF = "lenzo.urls"
