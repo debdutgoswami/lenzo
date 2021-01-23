@@ -51,6 +51,13 @@
 
 4. Create a Pull Request. Follow the [PR guidelines](/CONTRIBUTING.md#pull-request-process)
 
+### Note
+
+Before starting with your day's development, perform a pull from the `develop` branch
+   
+```shell
+git pull origin develop
+```
 ---
 
 ## Running Backend ONLY
