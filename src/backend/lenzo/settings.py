@@ -52,11 +52,11 @@ if (
         "127.0.0.1",
         "localhost",
         "0.0.0.0",
-        "http://localhost:5000",
+        "http://localhost:3000",
     ]
 
     CORS_ORIGIN_ALLOW_ALL = False
-    CORS_ORIGIN_WHITELIST = ("http://localhost:5000",)
+    CORS_ORIGIN_WHITELIST = ("http://localhost:3000",)
     DEBUG = True
 
 elif os.environ[stageEnv] == prodStage:
