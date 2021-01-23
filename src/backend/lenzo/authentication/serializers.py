@@ -20,14 +20,6 @@ class CustomUserSerializer(serializers.ModelSerializer):
     Converts JSON to ORM
     """
 
-    dob = serializers.DateField(format="%Y-%m-%d")
-
-    def validate_phone(self, value):
-        ModelClass = self.Meta.model
-        if ModelClass.objects.filter(phone=value).exists():
-            raise serializers.ValidationError(f"user exists with {value} phone number")
-        return value
-
     def validate_username(self, value):
         ModelClass = self.Meta.model
         if ModelClass.objects.filter(username=value).exists():
@@ -43,7 +35,7 @@ class CustomUserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CustomUserModel
-        fields = ("email", "username", "password", "dob", "phone")
+        fields = ("email", "username", "password")
         extra_kwargs = {"password": {"write_only": True}}
         read_only_fields = (
             "is_staff",
