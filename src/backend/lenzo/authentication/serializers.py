@@ -1,7 +1,6 @@
+from django.contrib.auth import get_user_model
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
-
-from .models import CustomUserModel
 
 
 class TokenObtainSerializer(TokenObtainPairSerializer):
@@ -15,7 +14,7 @@ class TokenObtainSerializer(TokenObtainPairSerializer):
         return token
 
 
-class CustomUserSerializer(serializers.ModelSerializer):
+class AuthUserSerializer(serializers.ModelSerializer):
     """
     Converts JSON to ORM
     """
@@ -34,9 +33,18 @@ class CustomUserSerializer(serializers.ModelSerializer):
         return value
 
     class Meta:
-        model = CustomUserModel
-        fields = ("email", "username", "password")
-        extra_kwargs = {"password": {"write_only": True}}
+        model = get_user_model()
+        fields = (
+            "first_name",
+            "last_name",
+            "email",
+            "username",
+            "password",
+        )
+        extra_kwargs = {
+            "password": {"write_only": True},
+            "email": {"required": True, "allow_blank": False},
+        }
         read_only_fields = (
             "is_staff",
             "date_joined",

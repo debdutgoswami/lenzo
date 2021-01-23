@@ -6,7 +6,7 @@ from rest_framework import permissions, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from .serializers import TokenObtainSerializer, CustomUserSerializer
+from .serializers import TokenObtainSerializer, AuthUserSerializer
 
 # Create your views here.
 
@@ -18,9 +18,9 @@ class ObtainCustomTokenPair(TokenObtainPairView):
 class CreateCustomUser(APIView):
     permission_classes = (permissions.AllowAny,)
 
-    @swagger_auto_schema(request_body=CustomUserSerializer)
+    @swagger_auto_schema(request_body=AuthUserSerializer)
     def post(self, request):
-        serializer = CustomUserSerializer(data=request.data)
+        serializer = AuthUserSerializer(data=request.data)
         if serializer.is_valid():
             user = serializer.save()
             if user:

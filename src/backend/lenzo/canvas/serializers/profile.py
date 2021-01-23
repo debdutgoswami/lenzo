@@ -35,7 +35,6 @@ class ProfileSerializer(serializers.ModelSerializer):
             "last_name",
             "username",
             "email",
-            "dob",
             "date_joined",
             "hosted",
             "participated",

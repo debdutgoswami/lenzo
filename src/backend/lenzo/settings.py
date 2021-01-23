@@ -64,8 +64,6 @@ elif os.environ[stageEnv] == prodStage:
     ALLOWED_HOSTS = []
 
 
-AUTH_USER_MODEL = "authentication.CustomUserModel"
-
 # Application definition
 
 DJANGO_CORE_APPS = [

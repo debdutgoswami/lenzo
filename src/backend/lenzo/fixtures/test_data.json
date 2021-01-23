@@ -75,144 +75,144 @@
         "model": "auth.permission",
         "pk": 9,
         "fields": {
-            "name": "Can add log entry",
+            "name": "Can add user",
             "content_type": 3,
-            "codename": "add_logentry"
+            "codename": "add_user"
         }
     },
     {
         "model": "auth.permission",
         "pk": 10,
         "fields": {
-            "name": "Can change log entry",
+            "name": "Can change user",
             "content_type": 3,
-            "codename": "change_logentry"
+            "codename": "change_user"
         }
     },
     {
         "model": "auth.permission",
         "pk": 11,
         "fields": {
-            "name": "Can delete log entry",
+            "name": "Can delete user",
             "content_type": 3,
-            "codename": "delete_logentry"
+            "codename": "delete_user"
         }
     },
     {
         "model": "auth.permission",
         "pk": 12,
         "fields": {
-            "name": "Can view log entry",
+            "name": "Can view user",
             "content_type": 3,
-            "codename": "view_logentry"
+            "codename": "view_user"
         }
     },
     {
         "model": "auth.permission",
         "pk": 13,
         "fields": {
-            "name": "Can add content type",
+            "name": "Can add log entry",
             "content_type": 4,
-            "codename": "add_contenttype"
+            "codename": "add_logentry"
         }
     },
     {
         "model": "auth.permission",
         "pk": 14,
         "fields": {
-            "name": "Can change content type",
+            "name": "Can change log entry",
             "content_type": 4,
-            "codename": "change_contenttype"
+            "codename": "change_logentry"
         }
     },
     {
         "model": "auth.permission",
         "pk": 15,
         "fields": {
-            "name": "Can delete content type",
+            "name": "Can delete log entry",
             "content_type": 4,
-            "codename": "delete_contenttype"
+            "codename": "delete_logentry"
         }
     },
     {
         "model": "auth.permission",
         "pk": 16,
         "fields": {
-            "name": "Can view content type",
+            "name": "Can view log entry",
             "content_type": 4,
-            "codename": "view_contenttype"
+            "codename": "view_logentry"
         }
     },
     {
         "model": "auth.permission",
         "pk": 17,
         "fields": {
-            "name": "Can add session",
+            "name": "Can add content type",
             "content_type": 5,
-            "codename": "add_session"
+            "codename": "add_contenttype"
         }
     },
     {
         "model": "auth.permission",
         "pk": 18,
         "fields": {
-            "name": "Can change session",
+            "name": "Can change content type",
             "content_type": 5,
-            "codename": "change_session"
+            "codename": "change_contenttype"
         }
     },
     {
         "model": "auth.permission",
         "pk": 19,
         "fields": {
-            "name": "Can delete session",
+            "name": "Can delete content type",
             "content_type": 5,
-            "codename": "delete_session"
+            "codename": "delete_contenttype"
         }
     },
     {
         "model": "auth.permission",
         "pk": 20,
         "fields": {
-            "name": "Can view session",
+            "name": "Can view content type",
             "content_type": 5,
-            "codename": "view_session"
+            "codename": "view_contenttype"
         }
     },
     {
         "model": "auth.permission",
         "pk": 21,
         "fields": {
-            "name": "Can add user",
+            "name": "Can add session",
             "content_type": 6,
-            "codename": "add_customusermodel"
+            "codename": "add_session"
         }
     },
     {
         "model": "auth.permission",
         "pk": 22,
         "fields": {
-            "name": "Can change user",
+            "name": "Can change session",
             "content_type": 6,
-            "codename": "change_customusermodel"
+            "codename": "change_session"
         }
     },
     {
         "model": "auth.permission",
         "pk": 23,
         "fields": {
-            "name": "Can delete user",
+            "name": "Can delete session",
             "content_type": 6,
-            "codename": "delete_customusermodel"
+            "codename": "delete_session"
         }
     },
     {
         "model": "auth.permission",
         "pk": 24,
         "fields": {
-            "name": "Can view user",
+            "name": "Can view session",
             "content_type": 6,
-            "codename": "view_customusermodel"
+            "codename": "view_session"
         }
     },
     {
@@ -252,6 +252,42 @@
         }
     },
     {
+        "model": "auth.user",
+        "pk": 1,
+        "fields": {
+            "password": "pbkdf2_sha256$216000$YtprCWPs9QzV$1P7QXCtaIHMYSThACQ60wsTl3iicliXz4RzRrgwcafA=",
+            "last_login": null,
+            "is_superuser": false,
+            "username": "test1",
+            "first_name": "",
+            "last_name": "",
+            "email": "test1@test.com",
+            "is_staff": false,
+            "is_active": true,
+            "date_joined": "2021-01-23T20:05:46.991Z",
+            "groups": [],
+            "user_permissions": []
+        }
+    },
+    {
+        "model": "auth.user",
+        "pk": 2,
+        "fields": {
+            "password": "pbkdf2_sha256$216000$yeOP0KN2JzuH$1EdgfXPCa+gFxQBJLjOhV9kLWN1Dgmyz5wQiFIrS9QA=",
+            "last_login": null,
+            "is_superuser": false,
+            "username": "test2",
+            "first_name": "",
+            "last_name": "",
+            "email": "test2@test.com",
+            "is_staff": false,
+            "is_active": true,
+            "date_joined": "2021-01-23T20:06:07.398Z",
+            "groups": [],
+            "user_permissions": []
+        }
+    },
+    {
         "model": "contenttypes.contenttype",
         "pk": 1,
         "fields": {
@@ -271,13 +307,21 @@
         "model": "contenttypes.contenttype",
         "pk": 3,
         "fields": {
+            "app_label": "auth",
+            "model": "user"
+        }
+    },
+    {
+        "model": "contenttypes.contenttype",
+        "pk": 4,
+        "fields": {
             "app_label": "admin",
             "model": "logentry"
         }
     },
     {
         "model": "contenttypes.contenttype",
-        "pk": 4,
+        "pk": 5,
         "fields": {
             "app_label": "contenttypes",
             "model": "contenttype"
@@ -285,18 +329,10 @@
     },
     {
         "model": "contenttypes.contenttype",
-        "pk": 5,
+        "pk": 6,
         "fields": {
             "app_label": "sessions",
             "model": "session"
-        }
-    },
-    {
-        "model": "contenttypes.contenttype",
-        "pk": 6,
-        "fields": {
-            "app_label": "authentication",
-            "model": "customusermodel"
         }
     },
     {
@@ -308,48 +344,12 @@
         }
     },
     {
-        "model": "authentication.customusermodel",
-        "pk": 1,
-        "fields": {
-            "password": "pbkdf2_sha256$216000$GKUqXKDgU1Jb$bB22HYAAGahjFYm7KelCqYGrjL0FVRsqcXvZiY+2CJ4=",
-            "last_login": null,
-            "is_superuser": false,
-            "username": "test1",
-            "first_name": "",
-            "last_name": "",
-            "email": "test1@test.com",
-            "is_staff": false,
-            "is_active": true,
-            "date_joined": "2021-01-23T16:26:41.448Z",
-            "groups": [],
-            "user_permissions": []
-        }
-    },
-    {
-        "model": "authentication.customusermodel",
-        "pk": 2,
-        "fields": {
-            "password": "pbkdf2_sha256$216000$wuQkxzHqynNj$+tadQrqaSIB910kKtMaBMfxqw31b8iH/L3GOgwy28O4=",
-            "last_login": null,
-            "is_superuser": false,
-            "username": "test2",
-            "first_name": "",
-            "last_name": "",
-            "email": "test2@test.com",
-            "is_staff": false,
-            "is_active": true,
-            "date_joined": "2021-01-23T16:26:57.909Z",
-            "groups": [],
-            "user_permissions": []
-        }
-    },
-    {
         "model": "canvas.room",
-        "pk": "5mpl-bqau-h53c",
+        "pk": "4cxu-2ptl-p6ii",
         "fields": {
             "host": 2,
             "name": "Test Room 5",
-            "created_at": "2021-01-23T16:28:00.685Z",
+            "created_at": "2021-01-23T20:07:25.449Z",
             "is_live": false,
             "duration": 0,
             "start_time": null,
@@ -359,39 +359,11 @@
     },
     {
         "model": "canvas.room",
-        "pk": "eanl-j60s-hud3",
-        "fields": {
-            "host": 2,
-            "name": "Test Room 6",
-            "created_at": "2021-01-23T16:28:05.601Z",
-            "is_live": false,
-            "duration": 0,
-            "start_time": null,
-            "end_time": null,
-            "participants": []
-        }
-    },
-    {
-        "model": "canvas.room",
-        "pk": "iyae-dn50-6hip",
-        "fields": {
-            "host": 1,
-            "name": "Test Room 3",
-            "created_at": "2021-01-23T16:27:30.007Z",
-            "is_live": false,
-            "duration": 0,
-            "start_time": null,
-            "end_time": null,
-            "participants": []
-        }
-    },
-    {
-        "model": "canvas.room",
-        "pk": "mba3-qbut-fpxb",
+        "pk": "8i7o-bz7x-qvbh",
         "fields": {
             "host": 1,
             "name": "Test Room 1",
-            "created_at": "2021-01-23T16:27:17.821Z",
+            "created_at": "2021-01-23T20:06:40.236Z",
             "is_live": false,
             "duration": 0,
             "start_time": null,
@@ -401,11 +373,11 @@
     },
     {
         "model": "canvas.room",
-        "pk": "ncr3-5je3-4w2o",
+        "pk": "hfit-9rsg-e38i",
         "fields": {
             "host": 2,
             "name": "Test Room 4",
-            "created_at": "2021-01-23T16:27:54.389Z",
+            "created_at": "2021-01-23T20:07:19.674Z",
             "is_live": false,
             "duration": 0,
             "start_time": null,
@@ -415,11 +387,39 @@
     },
     {
         "model": "canvas.room",
-        "pk": "z255-xse9-cndw",
+        "pk": "k52l-qk3b-8moe",
         "fields": {
             "host": 1,
             "name": "Test Room 2",
-            "created_at": "2021-01-23T16:27:25.771Z",
+            "created_at": "2021-01-23T20:06:53.815Z",
+            "is_live": false,
+            "duration": 0,
+            "start_time": null,
+            "end_time": null,
+            "participants": []
+        }
+    },
+    {
+        "model": "canvas.room",
+        "pk": "t6nn-qij9-cffw",
+        "fields": {
+            "host": 1,
+            "name": "Test Room 3",
+            "created_at": "2021-01-23T20:06:58.675Z",
+            "is_live": false,
+            "duration": 0,
+            "start_time": null,
+            "end_time": null,
+            "participants": []
+        }
+    },
+    {
+        "model": "canvas.room",
+        "pk": "ub20-7a0y-cu37",
+        "fields": {
+            "host": 2,
+            "name": "Test Room 6",
+            "created_at": "2021-01-23T20:07:29.648Z",
             "is_live": false,
             "duration": 0,
             "start_time": null,
