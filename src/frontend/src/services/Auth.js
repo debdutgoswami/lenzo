@@ -16,7 +16,6 @@ export function getUser() {
         let token = LocalStorageService.getAccessToken()
         return jwtdecode(token)
     }catch(e){
-        console.log(e)
         return null;
     }
 }

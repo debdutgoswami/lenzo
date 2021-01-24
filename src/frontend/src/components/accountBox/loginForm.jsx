@@ -32,16 +32,13 @@ export function LoginForm(props) {
     async onSubmit(values){
       try {
         let response = await Services.login(values);
-        console.log(response);
         if(response.status === 200) {
-          console.log(response.data)
           LocalStorageService.setToken(response.data)
           history.push("/")
         }
       }catch(e) {
-
+        console.log(e)
       }
-      console.log(values)
     }
   })
   return (
@@ -56,8 +53,8 @@ export function LoginForm(props) {
       <SubmitButton type="submit" form="asd" >Signin</SubmitButton>
       <Marginer direction="vertical" margin="1em" />
       <MutedLink href="#">
-        Don't have an accoun?{" "}
-        <BoldLink href="#" onClick={switchToSignup}>
+        Don't have an account?
+        <BoldLink href="#register" onClick={switchToSignup}>
           Signup
         </BoldLink>
       </MutedLink>

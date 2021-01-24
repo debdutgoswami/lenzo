@@ -31,13 +31,10 @@ export function SignupForm(props) {
     },
     validationSchema,
     async onSubmit(values){
-      console.log(values)
       try {
         let response = await Services.register(values);
-        console.log(response);
         if(response.status === 201) {
-           switchToSignin()
-          // props.history.push("/")
+           switchToSignin();
         }
       }catch(e) {
         console.log(e)
@@ -59,7 +56,7 @@ export function SignupForm(props) {
       <Marginer direction="vertical" margin={10} />
       <SubmitButton type="submit" form="asd">Signup</SubmitButton>
       <Marginer direction="vertical" margin="1em" />
-      <MutedLink href="#register">
+      <MutedLink href="#">
         Already have an account?
         <BoldLink onClick={switchToSignin}>
           Signin

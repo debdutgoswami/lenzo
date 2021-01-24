@@ -3,9 +3,6 @@ import LocalStorageService from "./LocalStorage";
 import {
     apiUrl
 } from '../config.json'
-import {
-    useHistory
-} from 'react-router-dom'
 
 let endpoint = '/token/refresh'
 // LocalstorageService
@@ -27,45 +24,35 @@ axios_instance.interceptors.request.use(
         return config;
     },
     error => {
-        Promise.reject(error)
+        return Promise.reject(error)
     }
 );
 //Add a response interceptor
 axios_instance.interceptors.response.use((response) => {
         return response
-    },
-    function (error) {
+    },function (error) {
         const originalRequest = error.config;
-        console.log(error)
-        console.log(originalRequest);
-        let history = useHistory()
 
         if (error.response.status === 401 && originalRequest.url === endpoint) {
-            history.push('/accounts');
             return Promise.reject(error);
         }
 
-        if (error.response.status === 401) {
+        if (error.response.status === 401 && !originalRequest._retry) {
             originalRequest._retry = true;
             const refreshToken = localStorageService.getRefreshToken();
-            return axios.post('http://localhost:8000/api/token/refresh', {
+            return axios_instance.post('/token/refresh', {
                     "refresh": refreshToken
-                }, {
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                })
-                .then(res => {
-                    if (res.status === 201) {
+                }).then(res => {
+                    console.log(res)
+                    if (res.status === 200) {
                         localStorageService.setToken(res.data);
                         axios_instance.defaults.headers.common['Authorization'] = 'Bearer ' + localStorageService.getAccessToken();
                         return axios(originalRequest);
                     }
-                }).catch(ex => {
-                    console.log(ex);
                 })
         }
         return Promise.reject(error);
-    });
+    }
+);
 
 export default axios_instance
