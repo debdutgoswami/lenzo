@@ -32,24 +32,21 @@ axios_instance.interceptors.response.use((response) => {
         return response
     },function (error) {
         const originalRequest = error.config;
-
         if (error.response.status === 401 && originalRequest.url === endpoint) {
             return Promise.reject(error);
         }
-
         if (error.response.status === 401 && !originalRequest._retry) {
             originalRequest._retry = true;
             const refreshToken = localStorageService.getRefreshToken();
             return axios_instance.post('/token/refresh', {
-                    "refresh": refreshToken
-                }).then(res => {
-                    console.log(res)
-                    if (res.status === 200) {
-                        localStorageService.setToken(res.data);
-                        axios_instance.defaults.headers.common['Authorization'] = 'Bearer ' + localStorageService.getAccessToken();
-                        return axios(originalRequest);
-                    }
-                })
+                "refresh": refreshToken
+            }).then(res => {
+                if (res.status === 200) {
+                    localStorageService.setToken(res.data);
+                    axios_instance.defaults.headers.common['Authorization'] = 'Bearer ' + localStorageService.getAccessToken();
+                    return axios(originalRequest);
+                }
+            })
         }
         return Promise.reject(error);
     }

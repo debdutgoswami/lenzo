@@ -1,14 +1,20 @@
 import axios from 'axios';
+import axios_instance from "./axios";
 import { apiUrl } from '../config.json';
 import LocalStorageService from './LocalStorage';
 import jwtdecode from 'jwt-decode'
-const endpoint = apiUrl + '/token/obtain'
 
 export function login(user) {
-   return axios.post(endpoint, {
+    const endpoint = apiUrl + '/token/obtain'
+    return axios.post(endpoint, {
         username: user.username,
         password: user.password
     })
+}
+
+export function logout() {
+    const endpoint = '/logout'
+    return axios_instance.post(endpoint);
 }
 
 export function getUser() {
