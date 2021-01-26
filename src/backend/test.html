@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test WebSockets</title>
+</head>
+<body>
+<canvas id="canvas"></canvas>
+<script>
+    // wait for the content of the window element
+    // to load, then performs the operations.
+    // This is considered best practice.
+    window.addEventListener('load', ()=>{
+
+        resize(); // Resizes the canvas once the window loads
+        document.addEventListener('mousedown', startPainting);
+        document.addEventListener('mouseup', stopPainting);
+        document.addEventListener('mousemove', sketch);
+        window.addEventListener('resize', resize);
+    });
+
+    const canvas = document.querySelector('#canvas');
+
+    // Context for the canvas for 2 dimensional operations
+    const ctx = canvas.getContext('2d');
+
+    // Resizes the canvas to the available size of the window.
+    function resize(){
+        ctx.canvas.width = window.innerWidth;
+        ctx.canvas.height = window.innerHeight;
+    }
+
+    // Stores the initial position of the cursor
+    let coord = {x:0 , y:0};
+    let prev = {x:0 , y:0};
+    // This is the flag that we are going to use to
+    // trigger drawing
+    let paint = false;
+
+    // Updates the coordinates of the cursor when
+    // an event e is triggered to the coordinates where
+    // the said event is triggered.
+    function getPosition(event){
+        coord.x = event.clientX - canvas.offsetLeft;
+        coord.y = event.clientY - canvas.offsetTop;
+    }
+
+    // The following functions toggle the flag to start
+    // and stop drawing
+    function startPainting(event){
+        paint = true;
+        getPosition(event);
+        prev = coord;
+    }
+    function stopPainting(){
+        paint = false;
+    }
+
+    function sketch(event){
+        if (!paint) return;
+        // The position of the cursor
+        // gets updated as we move the
+        // mouse around.
+        let draw_event = {
+            prev_coord: {
+                x: prev.x,
+                y: prev.y
+            }
+        };
+        getPosition(event);
+        draw_event.x = coord.x;
+        draw_event.y = coord.y;
+        draw_event.color = "green";
+        draw_event.width = 5;
+
+        ws.send(JSON.stringify(draw_event));
+    }
+
+</script>
+<form id="form">
+    <input type="submit" class="btn btn-primary" />
+</form>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reconnecting-websocket/1.0.0/reconnecting-websocket.js"></script>
+<script>
+    const token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjEwODIxMDY4LCJqdGkiOiI1NGNlNDI1ZDFhNTY0YWJiODc4OGU0ZWQ5MGMzMGIwOSIsInVzZXJfaWQiOjF9.ibqFLFgcDmWxKe5hMHrSVS1gixLAojAZZl5gfExZaT0";
+    endpoint = "ws://localhost:8000/ws/canvas/joxd-vcr7-4sih/?token=" + token
+    //var ws = new ReconnectingWebSocket(endpoint);
+    const ws = new WebSocket(endpoint);
+    ws.onopen = function (event) {
+        console.log("open", event)
+    }
+    ws.onmessage = function (event) {
+        // console.log("message", event)
+        const data = JSON.parse(event.data)
+        if(data["code"] === 400 || data["code"] === 401) console.log(data["message"])
+        else {
+            if (typeof (data["message"]) === "string") {
+                console.log(JSON.parse(data["message"]));
+            } else if(data["message"]["host"] === true){
+                console.log("host")
+            }
+            else {
+                const draw_event_ws = data["message"];
+                ctx.beginPath();
+                ctx.lineWidth = draw_event_ws.width;
+                // Sets the end of the lines drawn
+                // to a round shape.
+                ctx.lineCap = 'round';
+                ctx.strokeStyle = draw_event_ws.color;
+                // The cursor to start drawing
+                // moves to this coordinate
+                ctx.moveTo(draw_event_ws.prev_coord.x, draw_event_ws.prev_coord.y);
+                // A line is traced from start
+                // coordinate to this coordinate
+                ctx.lineTo(draw_event_ws.x , draw_event_ws.y);
+                // Draws the line.
+                ctx.stroke();
+            }
+        }
+    }
+    ws.onerror = function (event) {
+        console.log("error", event)
+    }
+
+    ws.onclose = function (event) {
+        console.log("close", event)
+    }
+</script>
+</body>
+</html>
