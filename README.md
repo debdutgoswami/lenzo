@@ -84,3 +84,27 @@ git pull origin develop
 Once you have your backend up and running successfully, simply go to `/docs` to look into the API documentations. Furthermore, you can go to `/playground` to test out those APIs.
 
 ---
+
+## Running Frontend
+
+1. Go to `src/frontend`
+
+   ```shell
+   cd src/frontend
+   ```
+   
+2. Copy the contents of `example.env.development.local` to `.env.development.local`
+
+   ```shell
+   cp config/example.env.development.local .env.development.local
+   ```
+   
+3. Start the frontend
+
+   ```shell
+   npm start
+   ```
+
+**Custom Environment Docs**
+
+- https://create-react-app.dev/docs/adding-custom-environment-variables/

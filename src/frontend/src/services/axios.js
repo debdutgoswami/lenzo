@@ -2,7 +2,7 @@ import axios from "axios";
 import LocalStorageService from "./LocalStorage";
 import {
     apiUrl
-} from '../config.json'
+} from '../config'
 
 let endpoint = '/token/refresh'
 // LocalstorageService
