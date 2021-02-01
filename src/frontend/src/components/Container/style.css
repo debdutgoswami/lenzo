@@ -1,0 +1,102 @@
+:root {
+    --selected-icon-bg-color:#FFFFE5	;
+}
+
+body {
+    position: relative;
+    margin: 0px;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    font-family: "Helvetica Neue Light", "HelveticaNeue-Light", "Helvetica Neue", Calibri, Helvetica,
+        Arial, sans-serif;
+}
+
+#whiteboardContainer {
+    height: 100px;
+    width: 100%;
+}
+
+.btn-group button {
+    background: transparent;
+    border: none;
+    border-radius:50%;
+    margin: -1px;
+    color: black;
+    padding: 11px 14px;
+    cursor: pointer;
+    float: left;
+    
+}
+
+@media (max-device-width: 1024px) {
+    .btn-group button {
+        font-size: 3em;
+        height: 135px;
+        width: 150px;
+    }
+
+    .minGroup {
+        width: 80px;
+    }
+}
+
+@media (min-device-width: 1024px) {
+    .btn-group button {
+        font-size: 1.2em;
+        height: 45px;
+        width: 50px;
+    }
+
+    .minGroup {
+        width: 25px;
+    }
+}
+
+button::-moz-focus-inner {
+    border: 0;
+}
+
+
+
+
+.btn-group:after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+
+.btn-group button:hover {
+    background-color:#E5FFED;
+}
+
+button {
+    outline-width: 0;
+}
+
+.btn-group {
+    background-color:#FAE5FF;
+    margin-left: 5px;
+    margin-bottom: 5px;
+    float: left;
+    position: relative;
+}
+
+.whiteboard-tool.active:not(:disabled) {
+    background: var(--selected-icon-bg-color);
+}
+
+#whiteboardThicknessSlider {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 10px;
+    border-radius: 3px;
+    background: transparent;
+    outline: none;
+    opacity: 1;
+    -webkit-transition: opacity 0.15s ease-in-out;
+    transition: opacity 0.15s ease-in-out;
+}
+
+
