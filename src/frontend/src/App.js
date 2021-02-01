@@ -21,7 +21,7 @@ function App() {
       <Switch>
         <ProtectedRoute path="/" exact component={Home} />
         <Route path="/accounts" component={AccountBox} />
-        <Route path="/board" component={Board} />
+        <ProtectedRoute path="/board/:RoomID" component={Board} />
         {/* <Redirect to="/" /> */}
       </Switch>
     </AppContainer>

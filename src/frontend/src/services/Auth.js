@@ -1,6 +1,6 @@
 import axios from 'axios';
 import axios_instance from "./axios";
-import { apiUrl } from '../config.json';
+import { apiUrl } from '../config';
 import LocalStorageService from './LocalStorage';
 import jwtdecode from 'jwt-decode'
 

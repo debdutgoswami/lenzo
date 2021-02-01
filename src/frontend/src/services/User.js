@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { apiUrl } from '../config.json';
+import { apiUrl } from '../config';
 
 const endpoint = apiUrl + '/user/create'
 

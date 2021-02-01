@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import {
   BoldLink,
   BoxContainer,
@@ -9,10 +9,9 @@ import {
 } from "./common";
 import { Marginer } from "../marginer";
 import { AccountContext } from "./accountContext";
-import { useFormik, ErrorMessage  } from 'formik'
+import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import * as Services from '../../services/User';
-import { LoginForm } from './loginForm'
 const validationSchema = Yup.object().shape({
   email: Yup.string().email('Invalid Email').required('required'),
   name: Yup.string().matches(/^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/, "Invalid Name").required('required'),
