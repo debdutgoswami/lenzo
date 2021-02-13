@@ -19,6 +19,10 @@ export function logout() {
 
 export function getUser() {
     try {
+        axios_instance.get('/token/is_active').catch((err) => {
+            console.log(err)
+            return null
+        })
         let token = LocalStorageService.getAccessToken()
         return jwtdecode(token)
     }catch(e){

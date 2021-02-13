@@ -7,7 +7,7 @@ class ProtectedRoute extends React.Component {
     render() {
         const Component = this.props.component;
         return getUser() ? (
-            <Component />
+            <Component { ...this.props } />
         ) : (
             <Redirect to={{ pathname: '/accounts' }} />
         );
