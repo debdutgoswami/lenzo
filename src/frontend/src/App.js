@@ -2,7 +2,7 @@ import "./App.css";
 import styled from "styled-components";
 import { Route, Switch } from "react-router-dom"
 import { AccountBox } from "./components/accountBox";
-import { Home } from "./components/body/Home";
+import { HomeView } from "./views/home";
 import Board from "./components/board/Board";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 const AppContainer = styled.div`
@@ -16,16 +16,13 @@ const AppContainer = styled.div`
 
 function App() {
   return (
-    // <BrowserRouter>
     <AppContainer>
       <Switch>
-        <ProtectedRoute path="/" exact component={Home} />
+        <ProtectedRoute path="/" exact component={HomeView} />
         <Route path="/accounts" component={AccountBox} />
         <ProtectedRoute path="/board/:RoomID" component={Board} />
-        {/* <Redirect to="/" /> */}
       </Switch>
     </AppContainer>
-    // </BrowserRouter>
   );
 }
 

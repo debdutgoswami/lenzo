@@ -1,9 +1,16 @@
 import React from "react";
 
-export function Home(props) {
+import {JoinRoomComponent} from "./JoinRoom";
+import {CreateRoomComponent} from "./CreateRoom";
+import {BoxContainer} from "./common";
+import {Marginer} from "../marginer";
+
+export function HomeComponent() {
   return (
-    <div>
-        <h2> HELLO FROM PROTECTED ROUTE </h2>
-    </div>
+    <BoxContainer>
+      <CreateRoomComponent />
+        <Marginer direction="vertical" margin="2.0em" />
+      <JoinRoomComponent />
+    </BoxContainer>
   );
 }
