@@ -85,12 +85,12 @@ Once you have your backend up and running successfully, simply go to `/docs` to 
 
 ---
 
-## Running Frontend
+## Running Client
 
-1. Go to `src/frontend`
+1. Go to `src/client`
 
    ```shell
-   cd src/frontend
+   cd src/client
    ```
    
 2. Copy the contents of `example.env.development.local` to `.env.development.local`
@@ -99,7 +99,7 @@ Once you have your backend up and running successfully, simply go to `/docs` to 
    cp config/example.env.development.local .env.development.local
    ```
    
-3. Start the frontend
+3. Start the client
 
    ```shell
    npm start
