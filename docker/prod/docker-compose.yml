@@ -6,6 +6,7 @@ services:
     container_name: backend
     restart: 'on-failure'
     image: "gcr.io/code2duo/lenzo:latest"
+    pull_policy: always
     env_file:
       - ./.env.dev
     links:

@@ -1,0 +1,19 @@
+version: "3"
+
+services:
+
+  backend:
+    container_name: backend
+    restart: 'on-failure'
+    build: "../../src/backend"
+    env_file:
+      - ./.env.dev
+    links:
+      - redis
+
+  redis:
+    container_name: "redis"
+    image: "redis:alpine"
+
+volumes:
+  static_volume:
