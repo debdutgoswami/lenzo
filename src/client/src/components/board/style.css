@@ -2,3 +2,18 @@ canvas {
     cursor: cell;
     border: 1px solid #000000;
 }
+div.toolbar {
+    width: 50%;
+    margin-top: 10px;
+    display:inline-block;
+    text-align: center;
+    flex-direction: row;
+}
+div.whiteboard-tool {
+    width:20%;
+    display:inline-block;
+    cursor: pointer;
+}
+.clearfloat {
+    clear:both;
+}

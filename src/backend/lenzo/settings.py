@@ -9,16 +9,15 @@ https://docs.djangoproject.com/en/3.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
-
+import io
 import os
 import sys
 from datetime import timedelta
-
-from dotenv import load_dotenv, find_dotenv
-
-load_dotenv(find_dotenv())
-
 from pathlib import Path
+import environ
+import google.auth
+from django.contrib.admin import AdminSite
+from google.cloud import secretmanager as sm
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -29,7 +28,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 APP_SECRET_ENV_KEY = "APP_SECRET"
-SECRET_KEY = os.environ[APP_SECRET_ENV_KEY]
+SECRET_KEY = "very-secret"
 
 # Environment Stage Mapping
 stageEnv = "STAGE"
@@ -60,8 +59,27 @@ if (
     DEBUG = True
 
 elif os.environ[stageEnv] == prodStage:
-    # For Beta Environment
-    ALLOWED_HOSTS = []
+    CORS_ORIGIN_ALLOW_ALL = False
+    CORS_ORIGIN_WHITELIST = [
+        "https://app.lenzo.tech",
+        "http://localhost:3000",
+    ]
+
+    # Pull django-environ settings file, stored in Secret Manager
+    SETTINGS_NAME = "lenzo_settings"
+    _, project = google.auth.default()
+    client = sm.SecretManagerServiceClient()
+    name = f"projects/{project}/secrets/{SETTINGS_NAME}/versions/latest"
+    payload = client.access_secret_version(name=name).payload.data.decode("UTF-8")
+
+    env = environ.Env()
+    env.read_env(io.StringIO(payload))
+    SECRET_KEY = env("SECRET_KEY")
+    ALLOWED_HOSTS = [
+        "api.lenzo.tech",
+    ]
+    # Default false. True allows default landing pages to be visible
+    DEBUG = False
 
 
 # Application definition
@@ -83,8 +101,8 @@ THIRD_PARTY_APPS = [
 ]
 
 PROJECT_APPS = [
-    "lenzo.authentication",
-    "lenzo.canvas",
+    "authentication",
+    "canvas",
 ]
 
 INSTALLED_APPS = DJANGO_CORE_APPS + THIRD_PARTY_APPS + PROJECT_APPS
@@ -283,8 +301,36 @@ USE_L10N = True
 
 USE_TZ = True
 
+PROJECT_ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), os.pardir)
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
-STATIC_URL = "/static/"
-STATIC_ROOT = os.path.join(BASE_DIR, "static")
+if stageEnv not in os.environ or os.environ[stageEnv] == devStage:
+    # Static files (CSS, JavaScript, Images)
+    # https://docs.djangoproject.com/en/3.1/howto/static-files/
+    STATIC_URL = "/static/"
+    STATIC_ROOT = os.path.join(BASE_DIR, "static")
+elif os.environ[stageEnv] == prodStage:
+    # Define static storage via django-storages[google]
+    DEFAULT_FILE_STORAGE = "lenzo.gcloud.GoogleCloudMediaFileStorage"
+    STATICFILES_STORAGE = "lenzo.gcloud.GoogleCloudStaticFileStorage"
+
+    GS_PROJECT_ID = env("GS_PROJECT_ID")
+    GS_STATIC_BUCKET_NAME = env("GS_STATIC_BUCKET_NAME")
+    GS_MEDIA_BUCKET_NAME = env("GS_MEDIA_BUCKET_NAME")
+
+    STATIC_URL = "https://storage.googleapis.com/{}/".format(GS_STATIC_BUCKET_NAME)
+    STATIC_ROOT = "static/"
+
+    MEDIA_URL = "https://storage.googleapis.com/{}/".format(GS_MEDIA_BUCKET_NAME)
+    MEDIA_ROOT = "media/"
+
+    UPLOAD_ROOT = "media/uploads/"
+
+    DOWNLOAD_ROOT = os.path.join(PROJECT_ROOT, "static/media/downloads")
+    DOWNLOAD_URL = STATIC_URL + "media/downloads"
+
+    STATICFILES_DIRS = []
+    GS_DEFAULT_ACL = "publicRead"
+
+AdminSite.site_header = "Lenzo Administration"

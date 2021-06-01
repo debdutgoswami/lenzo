@@ -1,5 +1,5 @@
 from django.urls import path
-from ..views import GetProfile, UpdateProfile
+from canvas.views import GetProfile, UpdateProfile
 
 urlpatterns = [
     path("profile", GetProfile.as_view(), name="get_profile"),

@@ -1,5 +1,5 @@
 from django.urls import path
-from ..views import GetRoom, CreateRoom, UpdateRoom
+from canvas.views import GetRoom, CreateRoom, UpdateRoom
 
 urlpatterns = [
     path("room/create", CreateRoom.as_view(), name="create_room"),

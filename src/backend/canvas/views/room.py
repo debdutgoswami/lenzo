@@ -3,8 +3,8 @@ from rest_framework import status, permissions
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from ..models import Room
-from ..serializers import RoomSerializer
+from canvas.models import Room
+from canvas.serializers import RoomSerializer
 
 
 # Create your views here.

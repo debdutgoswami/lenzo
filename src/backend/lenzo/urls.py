@@ -35,10 +35,10 @@ urlpatterns = [
     path(
         "api/",
         include(
-            "lenzo.authentication.urls",
+            "authentication.urls",
         ),
     ),
-    path("api/", include("lenzo.canvas.urls")),
+    path("api/", include("canvas.urls")),
     path(
         "playground/",
         schema_view.with_ui("swagger", cache_timeout=0),

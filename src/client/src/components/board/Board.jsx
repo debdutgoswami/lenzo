@@ -3,25 +3,42 @@ import LocalStorageService from "../../services/LocalStorage";
 import { websocketUrl } from "../../config"
 import ReconnectingWebSocket from "reconnecting-websocket";
 import './style.css'
+import EraserIcon from "../../icons/Eraser"
+import PencilIcon from "../../icons/Pencil";
+import DustbinIcon from "../../icons/Dustbin";
+import styled from "styled-components";
+import CameraIcon from "../../icons/Camera";
+
+const BoxContainer = styled.div`
+  height: calc(var(--vh, 1vh) * 100);
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+`;
 
 class Board extends React.Component {
     constructor(props) {
         super(props)
 
         this.state = {
-            tooltype: 'draw'
+            tooltype: 'draw',
+            brushSize: 30,
+            strokeStyle: 'black'
         }
         const OPTIONS = {
             connectionTimeout: 1000,
             maxRetries: 3,
         };
-        const endpoint = "/canvas/" + this.props.computedMatch.params.RoomID + "/?token=" + LocalStorageService.getAccessToken();
+        const endpoint = "/canvas/" + this.props.roomId + "/?token=" + LocalStorageService.getAccessToken();
         this.client = new ReconnectingWebSocket(websocketUrl + endpoint, [], OPTIONS);
     }
 
     componentDidMount() {
         this.canvas = document.querySelector('#canvas');
         this.ctx = this.canvas.getContext("2d");
+        this.ctx.translate(0.5, 0.5);
         this.socketEvents()
         this.drawCanvas()
     }
@@ -48,16 +65,19 @@ class Board extends React.Component {
                 else {
                     const draw_event_ws = data["message"];
                     console.log(draw_event_ws)
-                    var ctx = this.ctx;
+                    const ctx = this.ctx;
                     if (draw_event_ws.clear === true) ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
                     else {
                         ctx.beginPath();
                         if (draw_event_ws.erase === true) {
                             ctx.globalCompositeOperation = 'destination-out';
-                            ctx.lineWidth = 20;
+                            // ctx.lineWidth = this.state.brushSize;
+                            ctx.lineWidth = 30;
                         } else {
                             ctx.globalCompositeOperation = 'source-over';
+                            // ctx.strokeStyle = this.state.strokeStyle;
                             ctx.strokeStyle = 'black';
+                            // ctx.lineWidth = this.state.brushSize;
                             ctx.lineWidth = 30;
                         }
                         ctx.moveTo(draw_event_ws.prev_coord.x, draw_event_ws.prev_coord.y);
@@ -127,6 +147,9 @@ class Board extends React.Component {
             })
          }
     }
+    captureCanvas() {
+        console.log(this.canvas.toDataURL())
+    }
     clearCanvas() {
         if (this.state.host === true) {
             window.alert("Sure?");
@@ -136,13 +159,24 @@ class Board extends React.Component {
 
     render() {
         return (
-            <>
-            
-            <canvas id="canvas" width="1000" height="500"/>
-            <input type="button" value="draw" onClick={() => this.tool('draw')} />
-            <input type="button" value="erase" onClick={() => this.tool('erase')} />
-            <input type="button" value="clear" onClick={() => this.clearCanvas()} />
-            </>
+            <BoxContainer>
+                <div className="toolbar">
+                    <div className="whiteboard-tool" onClick={() => this.tool('draw')}>
+                        <PencilIcon width={30} height={30}/>
+                    </div>
+                    <div className="whiteboard-tool" onClick={() => this.tool('erase')}>
+                        <EraserIcon width={30} height={30}/>
+                    </div>
+                    <div className="whiteboard-tool" onClick={() => this.clearCanvas()}>
+                        <DustbinIcon width={30} height={30}/>
+                    </div>
+                    <div className="whiteboard-tool" onClick={() => this.captureCanvas()}>
+                        <CameraIcon width={30} height={30}/>
+                    </div>
+                </div>
+                <div className="clearfloat"/>
+                <canvas id="canvas" width={window.innerWidth} height={window.innerHeight} />
+            </BoxContainer>
         )
     }
 }

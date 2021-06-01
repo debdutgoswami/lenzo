@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Route, Switch } from "react-router-dom"
 import { AccountBox } from "./components/accountBox";
 import { HomeView } from "./views/home";
-import Board from "./components/board/Board";
+import { BoardView } from "./views/board";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 const AppContainer = styled.div`
   width: 100%;
@@ -20,7 +20,7 @@ function App() {
       <Switch>
         <ProtectedRoute path="/" exact component={HomeView} />
         <Route path="/accounts" component={AccountBox} />
-        <ProtectedRoute path="/board/:RoomID" component={Board} />
+        <ProtectedRoute path="/board/:roomId" component={BoardView} />
       </Switch>
     </AppContainer>
   );

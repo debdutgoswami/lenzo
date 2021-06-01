@@ -22,6 +22,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-RUN mkdir /usr/src/app/static
-
-#ENTRYPOINT ["/usr/src/app/entrypoint.sh"]
+CMD ["supervisord", "-c", "./supervisord.conf", "-n"]

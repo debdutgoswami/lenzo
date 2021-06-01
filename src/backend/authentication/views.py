@@ -6,7 +6,7 @@ from rest_framework import permissions, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from .serializers import TokenObtainSerializer, AuthUserSerializer
+from authentication.serializers import TokenObtainSerializer, AuthUserSerializer
 
 # Create your views here.
 

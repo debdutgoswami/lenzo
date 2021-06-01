@@ -1,0 +1,26 @@
+name: Push to Backend Google Container Registry
+on:
+  push:
+    branches:
+      - prod
+env:
+  PROJECT_ID: ${{ secrets.GCLOUD_PROJECT_ID }}
+  REGION: ${{ secrets.GCLOUD_REGION }}
+  STAGE: ${{ secrets.DJANGO_STAGE }}
+jobs:
+  build:
+    name: Push to GCR
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      # Setup gcloud CLI
+      - uses: google-github-actions/setup-gcloud@master
+        with:
+          version: "290.0.1"
+          service_account_key: ${{ secrets.GCLOUD_SERVICE_KEY }}
+          project_id: ${{ secrets.GCLOUD_PROJECT_ID }}
+
+      # Build and push image to Google Container Registry
+      - name: Build
+        run: gcloud builds submit --config=src/backend/cloudbuild.yaml --substitutions=_PROJECT_ID=$PROJECT_ID,_REGION=$REGION,_STAGE=$STAGE

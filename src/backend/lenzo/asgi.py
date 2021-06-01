@@ -20,8 +20,8 @@ django_asgi_app = get_asgi_application()
 
 from channels.routing import ProtocolTypeRouter, URLRouter
 
-from .authentication.middleware import TokenAuthMiddlewareStack
-from .canvas.consumers import CanvasConsumer, ChatConsumer
+from authentication.middleware import TokenAuthMiddlewareStack
+from canvas.consumers import CanvasConsumer, ChatConsumer
 
 application = ProtocolTypeRouter(
     {
