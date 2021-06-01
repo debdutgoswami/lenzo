@@ -76,6 +76,7 @@ elif os.environ[stageEnv] == prodStage:
     env.read_env(io.StringIO(payload))
     SECRET_KEY = env("SECRET_KEY")
     ALLOWED_HOSTS = [
+        "https://lenzo-2bn4xipkxa-uc.a.run.app",
         "api.lenzo.tech",
     ]
     # Default false. True allows default landing pages to be visible
