@@ -228,23 +228,26 @@ if (
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
-if stageEnv not in os.environ or os.environ[stageEnv] == devStage:
+if (
+        stageEnv not in os.environ
+        or os.environ[stageEnv] == devStage
+        or os.environ[stageEnv] == dockerStage
+):
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.sqlite3",
             "NAME": BASE_DIR / "db.sqlite3",
         }
     }
-
-elif os.environ[stageEnv] == dockerStage:
+elif os.environ[stageEnv] == prodStage:
+    # Set this value from django-environ
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.mysql",
-            "NAME": os.environ["MYSQL_DATABASE"],
-            "USER": os.environ["MYSQL_USER"],
-            "PASSWORD": os.environ["MYSQL_PASSWORD"],
-            "HOST": os.environ["MYSQL_HOST"],
-            "PORT": os.environ["MYSQL_PORT"],
+            "HOST": f"/cloudsql/{env('DATABASE_CONNECTION_NAME')}",
+            "USER": f"{env('DATABASE_USER_NAME')}",
+            "PASSWORD": f"{env('DATABASE_PASSWORD')}",
+            "NAME": f"{env('DATABASE_NAME')}",
         }
     }
 
