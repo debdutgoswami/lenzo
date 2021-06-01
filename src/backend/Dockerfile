@@ -22,4 +22,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-CMD ["/usr/bin/supervisord", "-c", "./supervisord.conf", "-n"]
+CMD ["daphne", "-b", "0.0.0.0", "-p", "8000", "lenzo.asgi:application"]
