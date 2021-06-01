@@ -5,38 +5,15 @@ services:
   backend:
     container_name: backend
     restart: 'on-failure'
-    build: ../../src/backend/
-    command: daphne -b 0.0.0.0 -p 8000 lenzo.asgi:application
-    volumes:
-      - static_volume:/usr/src/app/static
-    expose:
-      - 8000
+    image: "gcr.io/code2duo/lenzo:latest"
     env_file:
       - ./.env.dev
-    depends_on:
-      - "db"
     links:
-      - db
       - redis
-
-  db:
-    container_name: "db"
-    image: "mysql"
-    env_file:
-      - ./.env.dev
 
   redis:
     container_name: "redis"
     image: "redis:alpine"
-
-  nginx:
-    build: ../../src/nginx
-    volumes:
-      - static_volume:/usr/src/app/static
-    ports:
-      - 8000:80
-    depends_on:
-      - backend
 
 volumes:
   static_volume:
