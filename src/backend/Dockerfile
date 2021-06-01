@@ -3,7 +3,7 @@ FROM ubuntu:20.04
 MAINTAINER Debdut Goswami
 
 RUN apt-get update \
-  && apt-get install -y python3-pip python3-dev libmysqlclient-dev netcat supervisor \
+  && apt-get install -y python3-pip python3-dev libmysqlclient-dev netcat \
   && cd /usr/local/bin \
   && ln -s /usr/bin/python3 python \
   && pip3 install --upgrade pip \
