@@ -257,7 +257,7 @@ if stageEnv not in os.environ or os.environ[stageEnv] == devStage:
         "default": {
             "BACKEND": "channels_redis.core.RedisChannelLayer",
             "CONFIG": {
-                "hosts": [("127.0.0.1", 6379)],
+                "hosts": [(f"redis://:{env('REDIS_PASS')}@{env('REDIS_IP')}:{env('REDIS_PORT')}/0")],
             },
         },
     }

@@ -15,6 +15,3 @@ services:
   redis:
     container_name: "redis"
     image: "redis:alpine"
-
-volumes:
-  static_volume:
