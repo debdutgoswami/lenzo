@@ -76,7 +76,7 @@ elif os.environ[stageEnv] == prodStage:
     env.read_env(io.StringIO(payload))
     SECRET_KEY = env("SECRET_KEY")
     ALLOWED_HOSTS = [
-        "https://lenzo-2bn4xipkxa-uc.a.run.app",
+        "lenzo-2bn4xipkxa-uc.a.run.app",
         "api.lenzo.tech",
     ]
     # Default false. True allows default landing pages to be visible
@@ -258,7 +258,7 @@ if stageEnv not in os.environ or os.environ[stageEnv] == devStage:
         "default": {
             "BACKEND": "channels_redis.core.RedisChannelLayer",
             "CONFIG": {
-                "hosts": [(f"redis://:{env('REDIS_PASS')}@{env('REDIS_IP')}:{env('REDIS_PORT')}/0")],
+                "hosts": [("127.0.0.1", 6379)],
             },
         },
     }
@@ -268,7 +268,7 @@ elif os.environ[stageEnv] == dockerStage or os.environ[stageEnv] == prodStage:
         "default": {
             "BACKEND": "channels_redis.core.RedisChannelLayer",
             "CONFIG": {
-                "hosts": [("redis", 6379)],
+                "hosts": [(f"redis://:{env('REDIS_PASS')}@{env('REDIS_IP')}:{env('REDIS_PORT')}/0")],
             },
         },
     }
