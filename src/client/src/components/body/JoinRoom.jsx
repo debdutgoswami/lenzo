@@ -2,14 +2,16 @@ import React from "react";
 import { useFormik } from 'formik'
 import {FormContainer, Input, SubmitButton} from "./common";
 import {Marginer} from "../marginer";
+import {useHistory} from "react-router-dom";
 
 export function JoinRoomComponent() {
+    const history = useHistory();
     const { handleSubmit, handleChange, values } = useFormik({
         initialValues: {
             roomId: "",
         },
         onSubmit: async (values) => {
-            console.log(values)
+            history.push(`/board/${values.roomId}`)
         }
     })
     return (
