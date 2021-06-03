@@ -12,6 +12,7 @@ import { AccountContext } from "./accountContext";
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import * as Services from '../../services/User';
+import {toast} from "react-toastify";
 const validationSchema = Yup.object().shape({
   email: Yup.string().email('Invalid Email').required('required'),
   name: Yup.string().matches(/^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/, "Invalid Name").required('required'),
@@ -30,14 +31,9 @@ export function SignupForm(props) {
     },
     validationSchema,
     async onSubmit(values){
-      try {
-        let response = await Services.register(values);
-        if(response.status === 201) {
-           switchToSignin();
-        }
-      }catch(e) {
-        console.log(e)
-      }
+      await Services.register(values)
+          .then(() => switchToSignin())
+          .catch(() => toast.error("Some Error Occurred"));
     }
   })
   return (

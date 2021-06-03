@@ -14,6 +14,7 @@ import * as Yup from 'yup'
 import * as Services from '../../services/Auth';
 import { useHistory } from 'react-router-dom'
 import LocalStorageService from '../../services/LocalStorage'
+import {toast} from "react-toastify";
 
 const validationSchema = Yup.object().shape({
   username: Yup.string().matches(/^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/, "Invalid username").required('required'),
@@ -30,15 +31,12 @@ export function LoginForm(props) {
     },
     validationSchema,
     async onSubmit(values){
-      try {
-        let response = await Services.login(values);
-        if(response.status === 200) {
-          LocalStorageService.setToken(response.data)
-          history.push("/")
-        }
-      }catch(e) {
-        console.log(e)
-      }
+      await Services.login(values)
+          .then((res) => {
+              LocalStorageService.setToken(res.data)
+              history.push("/")
+          })
+          .catch(() => toast.error("Invalid Credentials"));
     }
   })
   return (

@@ -1,2 +1,2 @@
-export const apiUrl = process.env.REACT_APP_API_URL
-export const websocketUrl = process.env.REACT_APP_WEBSOCKET_URL
+export const apiUrl = "https://api.lenzo.tech/api"
+export const websocketUrl = "wss://api.lenzo.tech/ws"

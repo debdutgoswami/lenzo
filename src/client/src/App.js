@@ -1,4 +1,6 @@
 import "./App.css";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import styled from "styled-components";
 import { Route, Switch } from "react-router-dom"
 import { AccountBox } from "./components/accountBox";
@@ -16,13 +18,16 @@ const AppContainer = styled.div`
 
 function App() {
   return (
-    <AppContainer>
-      <Switch>
-        <ProtectedRoute path="/" exact component={HomeView} />
-        <Route path="/accounts" component={AccountBox} />
-        <ProtectedRoute path="/board/:roomId" component={BoardView} />
-      </Switch>
-    </AppContainer>
+    <>
+        <ToastContainer />
+        <AppContainer>
+          <Switch>
+            <ProtectedRoute path="/" exact component={HomeView} />
+            <Route path="/accounts" component={AccountBox} />
+            <ProtectedRoute path="/board/:roomId" component={BoardView} />
+          </Switch>
+        </AppContainer>
+    </>
   );
 }
 
