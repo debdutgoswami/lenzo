@@ -99,6 +99,7 @@ THIRD_PARTY_APPS = [
     "rest_framework",
     "drf_yasg",
     "channels",
+    "rest_framework_simplejwt.token_blacklist",
 ]
 
 PROJECT_APPS = [
