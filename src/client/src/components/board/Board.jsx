@@ -8,6 +8,7 @@ import PencilIcon from "../../icons/Pencil";
 import DustbinIcon from "../../icons/Dustbin";
 import styled from "styled-components";
 import CameraIcon from "../../icons/Camera";
+import HomeIcon from "../../icons/Home";
 
 const BoxContainer = styled.div`
   height: calc(var(--vh, 1vh) * 100);
@@ -24,7 +25,7 @@ class Board extends React.Component {
 
         this.state = {
             tooltype: 'draw',
-            brushSize: 30,
+            brushSize: 2,
             strokeStyle: 'black'
         }
         const OPTIONS = {
@@ -64,21 +65,17 @@ class Board extends React.Component {
                 }
                 else {
                     const draw_event_ws = data["message"];
-                    console.log(draw_event_ws)
                     const ctx = this.ctx;
                     if (draw_event_ws.clear === true) ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
                     else {
                         ctx.beginPath();
                         if (draw_event_ws.erase === true) {
                             ctx.globalCompositeOperation = 'destination-out';
-                            // ctx.lineWidth = this.state.brushSize;
-                            ctx.lineWidth = 30;
+                            ctx.lineWidth = this.state.brushSize;
                         } else {
                             ctx.globalCompositeOperation = 'source-over';
-                            // ctx.strokeStyle = this.state.strokeStyle;
-                            ctx.strokeStyle = 'black';
-                            // ctx.lineWidth = this.state.brushSize;
-                            ctx.lineWidth = 30;
+                            ctx.strokeStyle = this.state.strokeStyle;
+                            ctx.lineWidth = this.state.brushSize;
                         }
                         ctx.moveTo(draw_event_ws.prev_coord.x, draw_event_ws.prev_coord.y);
                         ctx.lineTo(draw_event_ws.x, draw_event_ws.y);
@@ -95,14 +92,14 @@ class Board extends React.Component {
     }
 
     drawCanvas() {
-        var that = this;
-        var canvasx = document.querySelector("#canvas").offsetLeft;
-        var canvasy = document.querySelector("#canvas").offsetTop;
-        var last_mousex = 0;
-        var last_mousey = 0;
-        var mousex = 0;
-        var mousey = 0;
-        var mousedown = false;
+        const that = this;
+        const canvasx = document.querySelector("#canvas").offsetLeft;
+        const canvasy = document.querySelector("#canvas").offsetTop;
+        let last_mousex = 0;
+        let last_mousey = 0;
+        let mousex = 0;
+        let mousey = 0;
+        let mousedown = false;
         //Mousedown
         document.querySelector("#canvas").addEventListener('mousedown', function(e) {
             if (that.state.host === true) {
@@ -161,6 +158,9 @@ class Board extends React.Component {
         return (
             <BoxContainer>
                 <div className="toolbar">
+                    <div className="whiteboard-tool" onClick={() => this.props.history.push("/")}>
+                        <HomeIcon width={30} height={30}/>
+                    </div>
                     <div className="whiteboard-tool" onClick={() => this.tool('draw')}>
                         <PencilIcon width={30} height={30}/>
                     </div>
