@@ -115,15 +115,14 @@ class UploadRoomPhoto(APIView):
             image_serializer = ImageSerializer(data=request.data)
             if not image_serializer.is_valid():
                 return Response(
-                    data=image_serializer.errors,
-                    status=status.HTTP_400_BAD_REQUEST
+                    data=image_serializer.errors, status=status.HTTP_400_BAD_REQUEST
                 )
             room_photos = RoomPhotos(room=room_obj, **image_serializer.validated_data)
             room_photos.save()
             return Response(
                 data={
                     "status": "OK",
-                    "message": f"Image successfully stored at {room_photos.image}"
+                    "message": f"Image successfully stored at {room_photos.image}",
                 },
                 status=status.HTTP_201_CREATED,
             )

@@ -52,4 +52,4 @@ class RoomSerializer(serializers.ModelSerializer):
 
 class ImageSerializer(serializers.Serializer):
     validate_image = FileValidator(max_size=1024 * 100)
-    file = serializers.ImageField(validators=[validate_image])
+    image = serializers.ImageField(validators=[validate_image])
