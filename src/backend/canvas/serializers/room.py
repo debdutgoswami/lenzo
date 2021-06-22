@@ -4,6 +4,7 @@ from rest_framework import serializers
 from rest_framework.fields import empty
 
 from ..models import Room
+from ..validators import FileValidator
 
 
 class RoomUserSerializer(serializers.ModelSerializer):
@@ -47,3 +48,8 @@ class RoomSerializer(serializers.ModelSerializer):
         instance.is_live = bool(validated_data.get("is_live", instance.is_live))
         instance.save(update_fields=["name", "is_live"])
         return instance
+
+
+class ImageSerializer(serializers.Serializer):
+    validate_image = FileValidator(max_size=1024 * 100)
+    file = serializers.ImageField(validators=[validate_image])
