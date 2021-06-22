@@ -118,7 +118,7 @@ class UploadRoomPhoto(APIView):
                     data=image_serializer.errors,
                     status=status.HTTP_400_BAD_REQUEST
                 )
-            room_photos = RoomPhotos(room=room_obj, image=image_serializer.file)
+            room_photos = RoomPhotos(room=room_obj, **image_serializer.validated_data())
             room_photos.save()
             return Response(
                 data={
