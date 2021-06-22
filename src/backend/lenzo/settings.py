@@ -231,9 +231,9 @@ if (
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 if (
-        stageEnv not in os.environ
-        or os.environ[stageEnv] == devStage
-        or os.environ[stageEnv] == dockerStage
+    stageEnv not in os.environ
+    or os.environ[stageEnv] == devStage
+    or os.environ[stageEnv] == dockerStage
 ):
     DATABASES = {
         "default": {
@@ -269,7 +269,11 @@ elif os.environ[stageEnv] == dockerStage or os.environ[stageEnv] == prodStage:
         "default": {
             "BACKEND": "channels_redis.core.RedisChannelLayer",
             "CONFIG": {
-                "hosts": [(f"redis://:{env('REDIS_PASS')}@{env('REDIS_IP')}:{env('REDIS_PORT')}")],
+                "hosts": [
+                    (
+                        f"redis://:{env('REDIS_PASS')}@{env('REDIS_IP')}:{env('REDIS_PORT')}"
+                    )
+                ],
             },
         },
     }
