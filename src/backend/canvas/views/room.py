@@ -122,7 +122,7 @@ class UploadRoomPhoto(APIView):
             return Response(
                 data={
                     "status": "OK",
-                    "message": f"Image successfully stored at {room_photos.image}",
+                    "message": f"Image successfully stored at {room_photos.image.url}",
                 },
                 status=status.HTTP_201_CREATED,
             )
