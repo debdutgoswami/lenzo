@@ -34,6 +34,7 @@ class FileValidator(object):
                 "size": filesizeformat(data.size),
             }
             raise ValidationError(self.error_messages["min_size"], "min_size", params)
+        return data
 
     def __eq__(self, other):
         return (
