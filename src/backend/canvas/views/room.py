@@ -1,10 +1,11 @@
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status, permissions
+from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from canvas.models import Room
-from canvas.serializers import RoomSerializer
+from canvas.models import Room, RoomPhotos
+from canvas.serializers import RoomSerializer, ImageSerializer
 
 
 # Create your views here.
@@ -94,6 +95,51 @@ class UpdateRoom(APIView):
                 data={
                     "status": "ERROR",
                     "message": "Room Does Not Exists",
+                },
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+
+class UploadRoomPhoto(APIView):
+    def put(self, request: Request, **kwargs):
+        try:
+            room_obj: Room = Room.objects.get(pk=kwargs["id"])
+            if room_obj.host != request.user:
+                return Response(
+                    data={
+                        "status": "ERROR",
+                        "message": f"{request.user.username} is not the host",
+                    },
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+            image_serializer = ImageSerializer(data=request.data)
+            if not image_serializer.is_valid():
+                return Response(
+                    data=image_serializer.errors,
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+            room_photos = RoomPhotos(room=room_obj, image=image_serializer.file)
+            room_photos.save()
+            return Response(
+                data={
+                    "status": "OK",
+                    "message": f"Image successfully stored at {room_photos.image}"
+                },
+                status=status.HTTP_201_CREATED,
+            )
+        except Room.DoesNotExist:
+            return Response(
+                data={
+                    "status": "ERROR",
+                    "message": "Room Does Not Exists",
+                },
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        except KeyError:
+            return Response(
+                data={
+                    "status": "ERROR",
+                    "message": "File not passed with request",
                 },
                 status=status.HTTP_400_BAD_REQUEST,
             )

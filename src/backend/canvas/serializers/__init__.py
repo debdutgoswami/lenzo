@@ -1,2 +1,2 @@
-from .room import RoomSerializer
+from .room import RoomSerializer, ImageSerializer
 from .profile import ProfileSerializer
