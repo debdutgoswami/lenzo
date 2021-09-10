@@ -59,7 +59,7 @@ mysqlclient==2.0.3
 openapi-codec==1.3.2
 packaging==20.8
 pathspec==0.8.1
-Pillow==8.2.0
+Pillow==8.3.2
 priority==1.3.0
 proto-plus==1.18.1
 protobuf==3.17.1
